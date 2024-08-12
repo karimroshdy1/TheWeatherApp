@@ -41,6 +41,9 @@ dependencies {
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
+    // retrofit
+
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.compose.ui.tooling)
+
 }
