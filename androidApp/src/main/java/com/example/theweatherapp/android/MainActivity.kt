@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.mutableStateOf
+import com.example.theweatherapp.android.Screens.AddLocationScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -56,7 +57,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GreetingView(currentLocation)
+                    //GreetingView(currentLocation)
+                    AddLocationScreen()
                 }
             }
         }
@@ -89,7 +91,8 @@ fun GreetingView(text: String) {
 @Composable
 fun DefaultPreview() {
     MyApplicationTheme {
-        GreetingView("Hello, Android!")
+      //  GreetingView("Hello, Android!")
+        AddLocationScreen()
     }
 }
 
