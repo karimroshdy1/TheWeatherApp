@@ -44,6 +44,10 @@ dependencies {
     // retrofit
 
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
     debugImplementation(libs.compose.ui.tooling)
+
+    //getting device location
+    implementation(libs.play.services.location)
 
 }
