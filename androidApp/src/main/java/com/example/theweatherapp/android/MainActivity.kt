@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-<<<<<<< Updated upstream
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
@@ -21,19 +20,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.mutableStateOf
 
-=======
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.theweatherapp.Greeting
->>>>>>> Stashed changes
 
-val ourFont = FontFamily(
-    Font(R.font.ubuntu_bold, FontWeight.Bold),
-    Font(R.font.ubuntu_light, FontWeight.Light),
-    Font(R.font.ubuntu_medium, FontWeight.Medium)
-)
 class MainActivity : ComponentActivity() {
 
     private lateinit var locationService: LocationService
@@ -52,7 +39,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-<<<<<<< Updated upstream
         locationService = LocationService(this)
 
         // Request location permission
@@ -64,14 +50,11 @@ class MainActivity : ComponentActivity() {
         }
 
         // Set the content view
-=======
->>>>>>> Stashed changes
         setContent {
             MyApplicationTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-
                 ) {
                     GreetingView(currentLocation)
                 }
@@ -99,8 +82,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun GreetingView(text: String) {
-    Text(text = text ,
-        fontFamily = ourFont)
+    Text(text = text)
 }
 
 @Preview
