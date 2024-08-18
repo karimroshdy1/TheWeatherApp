@@ -93,6 +93,7 @@
 //
 package com.example.theweatherapp.android.Screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -104,6 +105,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 
  data class Location(
@@ -135,6 +137,7 @@ fun SavedLocationsScreen(viewModel: SavedLocationViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0xFFD3F5F5)) // Apply background color here
             .padding(16.dp)
     ) {
         LazyColumn(modifier = Modifier.weight(1f)) {
@@ -144,14 +147,13 @@ fun SavedLocationsScreen(viewModel: SavedLocationViewModel) {
         }
         FloatingActionButton(onClick = {
             // Example of adding a new location
-            val newLocation = Location("New York", 25, "☀️")
-            viewModel.addLocation(newLocation)
+            // val newLocation = Location("New York", 25, "☀️")
+            // viewModel.addLocation(newLocation)
         }) {
             Icon(imageVector = Icons.Default.Add, contentDescription = "Add location")
         }
     }
 }
-
 @Composable
 fun LocationItem(location: Location, onDelete: (Location) -> Unit) {
     Row(

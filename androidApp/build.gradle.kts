@@ -67,4 +67,5 @@ dependencies {
     // Location
     implementation (libs.androidx.core.ktx)
 
+
 }
