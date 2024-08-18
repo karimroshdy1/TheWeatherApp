@@ -16,39 +16,39 @@ import androidx.compose.ui.Alignment
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 
-data class Location(val name: String, val country: String)
+data class Locationn(val name: String, val country: String)
 
 @Composable
 fun AddLocationScreen() {
     var searchQuery by remember { mutableStateOf("") }
-    var searchResults by remember { mutableStateOf<List<Location>>(emptyList()) }
+    var searchResults by remember { mutableStateOf<List<Locationn>>(emptyList()) }
     val context = LocalContext.current
 
     // Example: Simulate a search function
     fun performSearch(query: String) {
         // Example hardcoded data to simulate search results
         val allLocations = listOf(
-            Location("United States", "US"),
-            Location("Canada", "CA"),
-            Location("United Kingdom", "GB"),
-            Location("Australia", "AU"),
-            Location("Germany", "DE"),
-            Location("France", "FR"),
-            Location("Italy", "IT"),
-            Location("Spain", "ES"),
-            Location("India", "IN"),
-            Location("China", "CN"),
-            Location("Japan", "JP"),
-            Location("Brazil", "BR"),
-            Location("South Africa", "ZA"),
-            Location("Mexico", "MX"),
-            Location("Russia", "RU"),
-            Location("South Korea", "KR"),
-            Location("Argentina", "AR"),
-            Location("Netherlands", "NL"),
-            Location("Saudi Arabia", "SA"),
-            Location("Turkey", "TR"),
-            Location("Sweden", "SE")
+            Locationn("United States", "US"),
+            Locationn("Canada", "CA"),
+            Locationn("United Kingdom", "GB"),
+            Locationn("Australia", "AU"),
+            Locationn("Germany", "DE"),
+            Locationn("France", "FR"),
+            Locationn("Italy", "IT"),
+            Locationn("Spain", "ES"),
+            Locationn("India", "IN"),
+            Locationn("China", "CN"),
+            Locationn("Japan", "JP"),
+            Locationn("Brazil", "BR"),
+            Locationn("South Africa", "ZA"),
+            Locationn("Mexico", "MX"),
+            Locationn("Russia", "RU"),
+            Locationn("South Korea", "KR"),
+            Locationn("Argentina", "AR"),
+            Locationn("Netherlands", "NL"),
+            Locationn("Saudi Arabia", "SA"),
+            Locationn("Turkey", "TR"),
+            Locationn("Sweden", "SE")
         )
 
         // Filter results based on the search query

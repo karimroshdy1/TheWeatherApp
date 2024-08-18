@@ -44,15 +44,27 @@ dependencies {
     // retrofit
 
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.appcompat)
+    implementation(libs.play.services.location)
     debugImplementation(libs.compose.ui.tooling)
 
-    //getting device location
-    implementation(libs.play.services.location)
-    implementation(libs.play.services.location.v2100)
+    implementation (libs.androidx.ui.v140)
+    implementation( libs.androidx.material3.v110)
+    implementation( libs.androidx.ui.tooling.preview.v140)
+    implementation( libs.androidx.activity.compose.v191)
+    debugImplementation (libs.androidx.ui.tooling.v140)
 
-    //gson
-    implementation(libs.retrofit) // e.g., "com.squareup.retrofit2:retrofit:2.9.0"
-    implementation(libs.converter.gson) // e.g., "com.squareup.retrofit2:converter-gson:2.9.0"
+    // Retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
+    // Lifecycle ViewModel Compose
+    implementation( libs.androidx.lifecycle.viewmodel.compose.v261)
+
+    // Kotlin Coroutines
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.kotlinx.coroutines.android)
+
+    // Location
+    implementation (libs.androidx.core.ktx)
 
 }

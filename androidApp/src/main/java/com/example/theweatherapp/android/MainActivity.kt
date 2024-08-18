@@ -94,7 +94,7 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     //GreetingView(currentLocation)
-                   // AddLocationScreen()
+                    // AddLocationScreen()
 
                     val apiService = remember {
                         Retrofit.Builder()
@@ -157,7 +157,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MyApplicationTheme {
-      //  GreetingView("Hello, Android!")
+        //  GreetingView("Hello, Android!")
         AddLocationScreen()
     }
 }
