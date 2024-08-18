@@ -11,24 +11,25 @@ kotlin {
             }
         }
     }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-            isStatic = true
-        }
-    }
 
+    // Remove iOS targets if you're not using them
     sourceSets {
-        commonMain.dependencies {
-            //put your multiplatform dependencies here
+        commonMain {
+            dependencies {
+
+            }
         }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+
+        androidMain {
+            dependencies {
+                implementation(libs.logging.interceptor) // Add logging interceptor only for Android
+            }
+        }
+
+        commonTest {
+            dependencies {
+                implementation(libs.kotlin.test) // e.g., "org.jetbrains.kotlin:kotlin-test"
+            }
         }
     }
 }

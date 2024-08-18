@@ -49,5 +49,10 @@ dependencies {
 
     //getting device location
     implementation(libs.play.services.location)
+    implementation(libs.play.services.location.v2100)
+
+    //gson
+    implementation(libs.retrofit) // e.g., "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation(libs.converter.gson) // e.g., "com.squareup.retrofit2:converter-gson:2.9.0"
 
 }
