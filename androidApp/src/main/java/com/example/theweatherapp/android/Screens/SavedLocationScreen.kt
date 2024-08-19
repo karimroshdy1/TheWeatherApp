@@ -100,15 +100,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.example.theweatherapp.Navigator
 
- data class Location(
+data class Location(
     val name: String,
     val temperature: Int,
     val weathericon: String
@@ -131,14 +131,19 @@ class SavedLocationViewModel : ViewModel() {
 }
 
 @Composable
-fun SavedLocationsScreen(viewModel: SavedLocationViewModel) {
+fun SavedLocationsScreen(
+    viewModel: SavedLocationViewModel,
+    navigator: Navigator,
+    modifier: Modifier
+) {
     val savedLocations by remember { derivedStateOf { viewModel.savedLocations } }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFD3F5F5)) // Apply background color here
-            .padding(16.dp)
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(Color(0xFFD3F5F5)) // Apply background color here
+//            .padding(16.dp)
+        modifier = modifier
     ) {
         LazyColumn(modifier = Modifier.weight(1f)) {
             items(savedLocations) { location ->
@@ -176,12 +181,11 @@ fun LocationItem(location: Location, onDelete: (Location) -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSavedLocationsScreen() {
-    // Create a sample view model for preview purposes
-    val sampleViewModel = SavedLocationViewModel()
-    sampleViewModel.addLocation(Location("Preview Location", 18, "☁️"))
 
-    SavedLocationsScreen(viewModel = sampleViewModel)
-}
+//fun PreviewSavedLocationsScreen() {
+//    // Create a sample view model for preview purposes
+//    val sampleViewModel = SavedLocationViewModel()
+//    sampleViewModel.addLocation(Location("Preview Location", 18, "☁️"))
+//
+//    SavedLocationsScreen(viewModel = sampleViewModel, navigator = navigator)
+//}

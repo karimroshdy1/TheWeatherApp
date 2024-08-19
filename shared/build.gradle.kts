@@ -29,6 +29,9 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(libs.kotlin.test) // e.g., "org.jetbrains.kotlin:kotlin-test"
+
+                implementation("org.jetbrains.androidx.navigation:navigation-compose:2.7.0-alpha07")
+
             }
         }
     }
@@ -44,4 +47,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+}
+dependencies {
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.runtime.android)
+    implementation(libs.androidx.navigation.compose)
 }

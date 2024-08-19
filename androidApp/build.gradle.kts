@@ -45,6 +45,7 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.play.services.location)
+    implementation(libs.androidx.navigation.compose)
     debugImplementation(libs.compose.ui.tooling)
 
     implementation (libs.androidx.ui.v140)

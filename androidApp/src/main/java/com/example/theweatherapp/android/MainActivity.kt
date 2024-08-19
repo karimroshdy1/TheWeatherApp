@@ -1,22 +1,17 @@
 package com.example.theweatherapp.android
-
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-
 import androidx.compose.runtime.mutableStateOf
-import com.example.theweatherapp.android.Screens.AddLocationScreen
-
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -26,19 +21,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.example.theweatherapp.android.AmrSherif.WeatherApiService
 import com.example.theweatherapp.android.AmrSherif.WeatherViewModel
 import com.example.theweatherapp.android.AmrSherif.WeatherViewModelFactory
-import com.example.theweatherapp.android.Screens.DispCard
 import android.location.Geocoder
 import android.location.Address
 import android.util.Log
 import androidx.compose.ui.text.font.FontWeight
-import com.example.theweatherapp.android.Screens.MainScreen
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-
-
-
-
-
+import androidx.navigation.compose.rememberNavController
+import com.example.theweatherapp.android.Screens.MainScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -85,33 +75,41 @@ class MainActivity : ComponentActivity() {
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
         }
+        val apiService =
+            Retrofit.Builder()
+                .baseUrl("https://api.openweathermap.org/data/2.5/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(WeatherApiService::class.java)
 
+
+        // Create ViewModel manually
+        viewModel = ViewModelProvider(
+            this,
+            WeatherViewModelFactory(apiService)
+        ).get(WeatherViewModel::class.java)
         setContent {
+
             MyApplicationTheme {
+                val navController = rememberNavController()
+                // Pass NavController to AppNavigator
+                val navigator = AndroidNavigator(navController) // Wrapping NavHostController in a Navigator
+
+                AppNavigator(navController, viewModel)
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    //GreetingView(currentLocation)
-                    // AddLocationScreen()
 
-                    val apiService = remember {
-                        Retrofit.Builder()
-                            .baseUrl("https://api.openweathermap.org/data/2.5/")
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build()
-                            .create(WeatherApiService::class.java)
-                    }
+                        MainScreen(
+                            viewModel, navigator, Modifier
 
-                    // Create ViewModel manually
-                    viewModel = ViewModelProvider(
-                        this,
-                        WeatherViewModelFactory(apiService)
-                    ).get(WeatherViewModel::class.java)
-
-                    MainScreen(viewModel)
-
+                                .fillMaxSize()
+                        )
+                       //WeatherDetailsScreen(viewModel, navigator)
+                        //AddLocationScreen()
+                        // SavedLocationsScreen(SavedLocationViewModel())
                 }
             }
         }
@@ -150,16 +148,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
-
-@Preview
-@Composable
-fun DefaultPreview() {
-    MyApplicationTheme {
-        //  GreetingView("Hello, Android!")
-        AddLocationScreen()
-    }
-}
-
-

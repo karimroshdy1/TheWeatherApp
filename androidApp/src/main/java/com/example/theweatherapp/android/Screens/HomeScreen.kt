@@ -4,6 +4,8 @@ package com.example.theweatherapp.android.Screens
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -30,6 +32,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import com.example.theweatherapp.Navigator
+import com.example.theweatherapp.Screen
 import com.example.theweatherapp.android.AmrSherif.WeatherState
 import com.example.theweatherapp.android.AmrSherif.WeatherViewModel
 
@@ -60,7 +64,7 @@ val ourfont = FontFamily(
 )
 
 @Composable
-fun MainScreen(viewModel: WeatherViewModel) {
+fun MainScreen(viewModel: WeatherViewModel, navigator: Navigator?, modifier: Modifier) {
     val weatherState by viewModel.weather.collectAsState()
     val apiKey = "4e887f948b0d41e94a45b00e8d5111b0" // Use your actual API key
 
@@ -75,9 +79,14 @@ fun MainScreen(viewModel: WeatherViewModel) {
     val onMenuClick: (String) -> Unit = { menuItem ->
         Log.d("MainScreen", "Menu item clicked: $menuItem")
         // No action for now
+        when (menuItem) {
+            "Saved Locations" -> navigator?.navigateTo(Screen.SavedLocationsScreen)
+            "Add Location" -> navigator?.navigateTo(Screen.AddLocationScreen)
+            "Weather Details" -> navigator?.navigateTo(Screen.WeatherDetailsScreen)
+        }
     }
 
-    Column {
+    Column(modifier = modifier) {
         TopBar(onRefresh = onRefresh, onMenuClick = onMenuClick)
         DispCard(weatherState = weatherState, onRefresh = onRefresh)
     }
@@ -91,10 +100,14 @@ fun TopBar(onRefresh: () -> Unit, onMenuClick: (String) -> Unit) {
     // TopAppBar with transparent background and no title
     TopAppBar(
         title = {},
+        colors = TopAppBarDefaults.topAppBarColors(Color(0xFFD3F5F5)),
         navigationIcon = {
             IconButton(onClick = { expanded = true }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.menu),
+                    imageVector = Icons.Default.Menu,
+                    modifier = Modifier
+                        .height(150.dp)
+                        .width(150.dp),
                     contentDescription = "Menu Icon"
                 )
             }
@@ -107,7 +120,7 @@ fun TopBar(onRefresh: () -> Unit, onMenuClick: (String) -> Unit) {
                 )
             }
         },
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent) // Transparent background
+        //colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent) // Transparent background
     )
 
     // Dropdown menu positioned correctly
