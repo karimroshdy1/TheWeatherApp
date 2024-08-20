@@ -3,9 +3,13 @@ package com.example.theweatherapp.android.Screens
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -24,19 +28,21 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.example.theweatherapp.Navigator
 import com.example.theweatherapp.Screen
 import com.example.theweatherapp.android.AmrSherif.WeatherState
 import com.example.theweatherapp.android.AmrSherif.WeatherViewModel
-
+import kotlinx.coroutines.delay
 
 
 private val weatherIconMap = mapOf(
@@ -57,38 +63,75 @@ fun getWeatherIconRes(description: String?): Int {
 }
 
 
+
 val ourfont = FontFamily(
     Font(R.font.ubuntu_bold, FontWeight.Bold),
     Font(R.font.ubuntu_light, FontWeight.Light),
     Font(R.font.ubuntu_medium, FontWeight.Medium)
 )
-
+@Composable
+fun LoadingScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White), // Optional: set a background color
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Image(
+                imageVector = Icons.Outlined.LocationOn, // Replace with your loading icon resource
+                contentDescription = "Loading",
+                modifier = Modifier.size(100.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Loading...",
+                fontSize = 20.sp,
+                color = Color.Black
+            )
+        }
+    }
+}
 @Composable
 fun MainScreen(viewModel: WeatherViewModel, navigator: Navigator?, modifier: Modifier) {
     val weatherState by viewModel.weather.collectAsState()
     val apiKey = "4e887f948b0d41e94a45b00e8d5111b0" // Use your actual API key
 
-    // Create a refresh function
-    val onRefresh = {
-        Log.d("MainScreen", "Refresh button clicked")
-        val city = weatherState.city ?: "Default City"
-        viewModel.fetchWeather(city, apiKey)
+    var isLoading by remember { mutableStateOf(true) }
+
+    // Use LaunchedEffect to handle the delay for the loading screen
+    LaunchedEffect(Unit) {
+        delay(2000) // 3 seconds delay
+        isLoading = false
     }
 
-    // Placeholder for menu click action
-    val onMenuClick: (String) -> Unit = { menuItem ->
-        Log.d("MainScreen", "Menu item clicked: $menuItem")
-        // No action for now
-        when (menuItem) {
-            "Saved Locations" -> navigator?.navigateTo(Screen.SavedLocationsScreen)
-            "Add Location" -> navigator?.navigateTo(Screen.AddLocationScreen)
-            "Weather Details" -> navigator?.navigateTo(Screen.WeatherDetailsScreen)
+    if (isLoading) {
+        LoadingScreen()
+        //AnimatedLoadingIcon()
+    } else {
+        // Main content
+        Column(modifier = modifier) {
+            TopBar(onRefresh = {
+                Log.d("MainScreen", "Refresh button clicked")
+                val city = weatherState.city ?: "Default City"
+                viewModel.fetchWeather(city, apiKey)
+            }, onMenuClick = { menuItem ->
+                Log.d("MainScreen", "Menu item clicked: $menuItem")
+                when (menuItem) {
+                    "Saved Locations" -> navigator?.navigateTo(Screen.SavedLocationsScreen)
+                    "Add Location" -> navigator?.navigateTo(Screen.AddLocationScreen)
+                    "Weather Details" -> navigator?.navigateTo(Screen.WeatherDetailsScreen)
+                }
+            })
+            DispCard(weatherState = weatherState, onRefresh = {
+                Log.d("MainScreen", "Refresh button clicked")
+                val city = weatherState.city ?: "Default City"
+                viewModel.fetchWeather(city, apiKey)
+            })
         }
-    }
-
-    Column(modifier = modifier) {
-        TopBar(onRefresh = onRefresh, onMenuClick = onMenuClick)
-        DispCard(weatherState = weatherState, onRefresh = onRefresh)
     }
 }
 

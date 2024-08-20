@@ -1,4 +1,5 @@
 [versions]
+accompanistPlaceholderVersion = "0.29.0-alpha"
 activityCompose = "1.9.1"
 agp = "8.5.1"
 coreKtx = "1.10.0"
@@ -33,6 +34,7 @@ androidx-ui-tooling-preview-v140 = { module = "androidx.compose.ui:ui-tooling-pr
 androidx-ui-tooling-v140 = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }
 androidx-ui-v140 = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+google-accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder", version.ref = "accompanistPlaceholderVersion" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }

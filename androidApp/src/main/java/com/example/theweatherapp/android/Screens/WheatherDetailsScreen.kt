@@ -31,22 +31,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.theweatherapp.Navigator
+import com.example.theweatherapp.Screen
 import com.example.theweatherapp.android.AmrSherif.WeatherState
 import com.example.theweatherapp.android.AmrSherif.WeatherViewModel
-
+import com.example.theweatherapp.android.R.*
 
 
 private val weatherIconMap = mapOf(
-    "clear sky" to R.drawable.sunny,
-    "few clouds" to R.drawable.sunwithclouds,
-    "scattered clouds" to R.drawable.scatterredclouds,
-    "broken clouds" to R.drawable.sunwithclouds,
-    "overcast clouds" to R.drawable.overcastclouds,
-    "shower rain" to R.drawable.rainshower,
-    "rain" to R.drawable.raining,
-    "thunderstorm" to R.drawable.thunder,
-    "snow" to R.drawable.snowflake,
-    "mist" to R.drawable.mist
+    "clear sky" to drawable.sunny,
+    "few clouds" to drawable.sunwithclouds,
+    "scattered clouds" to drawable.scatterredclouds,
+    "broken clouds" to drawable.sunwithclouds,
+    "overcast clouds" to drawable.overcastclouds,
+    "shower rain" to drawable.rainshower,
+    "rain" to drawable.raining,
+    "thunderstorm" to drawable.thunder,
+    "snow" to drawable.snowflake,
+    "mist" to drawable.mist
 )
 
 
@@ -65,10 +66,14 @@ fun WeatherDetailsScreen(viewModel: WeatherViewModel, navigator: Navigator, modi
         viewModel.fetchWeather(city, apiKey)
     }
 
-    // Placeholder for menu click action
     val onMenuClick: (String) -> Unit = { menuItem ->
         Log.d("MainScreen", "Menu item clicked: $menuItem")
         // No action for now
+        when (menuItem) {
+            "Saved Locations" -> navigator?.navigateTo(Screen.SavedLocationsScreen)
+            "Add Location" -> navigator?.navigateTo(Screen.AddLocationScreen)
+            "Home" -> navigator?.navigateTo(Screen.MainScreen)
+        }
     }
 
     Column(modifier = modifier) {
@@ -101,7 +106,7 @@ fun TopBar2(onRefresh: () -> Unit, onMenuClick: (String) -> Unit) {
         actions = {
             IconButton(onClick = onRefresh) {
                 Icon(
-                    painter = painterResource(id = R.drawable.refresh),
+                    painter = painterResource(id = drawable.refresh),
                     contentDescription = "Refresh Icon"
                 )
             }
@@ -230,35 +235,35 @@ fun DispCard2(weatherState: WeatherState, onRefresh: () -> Unit) {
                     Spacer(modifier = Modifier.height(5.dp))
 
                     Image(
-                        painter = painterResource(id = iconRes),
+                        painter = painterResource(id = R.drawable.mist),
                         contentDescription = "Weather Icon",
                         modifier = Modifier.size(50.dp)
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "${weatherState.temperature} °C",
+                        text = "${15} °C",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Thin,
                         fontSize = 15.sp
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "${weatherState.description}",
+                        text = "Windy",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp
                     )
                     Spacer(modifier = Modifier.height(26.dp))
                     Text(
-                        text = "Wind Speed: ${weatherState.windSpeed} m/s",
+                        text = "Wind Speed: 4.1 m/s",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp
                     )
                     Spacer(modifier = Modifier.height(26.dp))
                     Text(
-                        text = "Humidity: ${weatherState.humidity}%",
+                        text = "Humidity: 65 %",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp
@@ -281,35 +286,35 @@ fun DispCard2(weatherState: WeatherState, onRefresh: () -> Unit) {
                     Spacer(modifier = Modifier.height(5.dp))
 
                     Image(
-                        painter = painterResource(id = iconRes),
+                        painter = painterResource(id = R.drawable.sunwithclouds),
                         contentDescription = "Weather Icon",
                         modifier = Modifier.size(50.dp)
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "${weatherState.temperature} °C",
+                        text = "21°C",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Thin,
                         fontSize = 15.sp
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "${weatherState.description}",
+                        text = "Sunny",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp
                     )
                     Spacer(modifier = Modifier.height(26.dp))
                     Text(
-                        text = "Wind Speed: ${weatherState.windSpeed} m/s",
+                        text = "Wind Speed: 1.2 m/s",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp
                     )
                     Spacer(modifier = Modifier.height(26.dp))
                     Text(
-                        text = "Humidity: ${weatherState.humidity}%",
+                        text = "Humidity: 93%",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp
@@ -330,35 +335,35 @@ fun DispCard2(weatherState: WeatherState, onRefresh: () -> Unit) {
                     Spacer(modifier = Modifier.height(5.dp))
 
                     Image(
-                        painter = painterResource(id = iconRes),
+                        painter = painterResource(id = R.drawable.rainshower),
                         contentDescription = "Weather Icon",
                         modifier = Modifier.size(50.dp)
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "${weatherState.temperature} °C",
+                        text = "20°C",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Thin,
                         fontSize = 15.sp
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "${weatherState.description}",
+                        text = "Sunny",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp
                     )
                     Spacer(modifier = Modifier.height(26.dp))
                     Text(
-                        text = "Wind Speed: ${weatherState.windSpeed} m/s",
+                        text = "Wind Speed: 1.9 m/s",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp
                     )
                     Spacer(modifier = Modifier.height(26.dp))
                     Text(
-                        text = "Humidity: ${weatherState.humidity}%",
+                        text = "Humidity: 85%",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp
@@ -379,35 +384,35 @@ fun DispCard2(weatherState: WeatherState, onRefresh: () -> Unit) {
                     Spacer(modifier = Modifier.height(5.dp))
 
                     Image(
-                        painter = painterResource(id = iconRes),
+                        painter = painterResource(id = R.drawable.mist),
                         contentDescription = "Weather Icon",
                         modifier = Modifier.size(50.dp)
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "${weatherState.temperature} °C",
+                        text = "17°C",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Thin,
                         fontSize = 15.sp
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "${weatherState.description}",
+                        text =  "Cloudy",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp
                     )
                     Spacer(modifier = Modifier.height(26.dp))
                     Text(
-                        text = "Wind Speed: ${weatherState.windSpeed} m/s",
+                        text = "Wind Speed: 2.7 m/s",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp
                     )
                     Spacer(modifier = Modifier.height(26.dp))
                     Text(
-                        text = "Humidity: ${weatherState.humidity}%",
+                        text = "Humidity:65%",
                         fontFamily = ourfont,
                         fontWeight = FontWeight.Medium,
                         fontSize = 20.sp

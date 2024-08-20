@@ -1,5 +1,6 @@
 package com.example.theweatherapp.android.Screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,8 +15,13 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import com.example.theweatherapp.Navigator
+import com.example.theweatherapp.Screen
+import com.example.theweatherapp.android.R
 import kotlinx.coroutines.launch
 
 
@@ -64,12 +70,87 @@ data class City(
 
 
 
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBartsm(onMenuClick: (String) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+
+    // TopAppBar with transparent background and no title
+    TopAppBar(
+        title = {},
+        colors = TopAppBarDefaults.topAppBarColors(Color(0xFFD3F5F5)),
+        navigationIcon = {
+            IconButton(onClick = { expanded = true }) {
+                Icon(
+                    imageVector = Icons.Default.Menu,
+                    modifier = Modifier
+                        .height(150.dp)
+                        .width(150.dp),
+                    contentDescription = "Menu Icon"
+                )
+            }
+        },
+        actions = {
+
+
+        },
+        //colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent) // Transparent background
+    )
+
+    // Dropdown menu positioned correctly
+    if (expanded) {
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+        ) {
+            DropdownMenuItem(
+                text = { Text("Saved Locations") },
+                onClick = {
+                    onMenuClick("Saved Locations")
+                    expanded = false
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Home") },
+                onClick = {
+                    onMenuClick("Home")
+                    expanded = false
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Weather Details") },
+                onClick = {
+                    onMenuClick("Weather Details")
+                    expanded = false
+                }
+            )
+        }
+    }
+}
+
+
 @Composable
 fun AddLocationScreen(navigator: Navigator, modifier: Modifier) {
     var searchQuery by remember { mutableStateOf("") }
     var searchResults by remember { mutableStateOf<List<City>>(emptyList()) }
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope() // Define the coroutine scope
+
+
+
+    val onMenuClick: (String) -> Unit = { menuItem ->
+        Log.d("MainScreen", "Menu item clicked: $menuItem")
+        // No action for now
+        when (menuItem) {
+            "Saved Locations" -> navigator?.navigateTo(Screen.SavedLocationsScreen)
+            "Weather Details" -> navigator?.navigateTo(Screen.WeatherDetailsScreen)
+            "Home" -> navigator?.navigateTo(Screen.MainScreen)
+        }
+    }
 
     // Create an instance of the CityApiService
     val cityApiService = CityApiService.create()
@@ -97,21 +178,26 @@ fun AddLocationScreen(navigator: Navigator, modifier: Modifier) {
         }
     }
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier.fillMaxSize().background(Color(0xFFD3F5F5))) {
+
+        TopBartsm(onMenuClick)
+
+
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "Burger Menu",
-                modifier = Modifier
-                    .padding(end = 8.dp)
-                    .clickable {
-                        // Handle burger menu click
-                        Toast.makeText(context, "Burger Menu Clicked", Toast.LENGTH_SHORT).show()
-                    }
-            )
+//            Icon(
+//                imageVector = Icons.Default.Menu,
+//                contentDescription = "Burger Menu",
+//                modifier = Modifier
+//                    .padding(end = 8.dp)
+//                    .clickable {
+//                        // Handle burger menu click
+//                        Toast.makeText(context, "Burger Menu Clicked", Toast.LENGTH_SHORT).show()
+//                    }
+//            )
 
             TextField(
                 value = searchQuery,
@@ -141,7 +227,13 @@ fun AddLocationScreen(navigator: Navigator, modifier: Modifier) {
                         .fillMaxWidth()
                         .clickable {
                             // Handle click event here
-                            Toast.makeText(context, "Clicked on ${city.name}, ${city.countryCode}", Toast.LENGTH_SHORT).show()
+                            Toast
+                                .makeText(
+                                    context,
+                                    "Clicked on ${city.name}, ${city.countryCode}",
+                                    Toast.LENGTH_SHORT
+                                )
+                                .show()
                         }
                         .padding(8.dp)
                 )

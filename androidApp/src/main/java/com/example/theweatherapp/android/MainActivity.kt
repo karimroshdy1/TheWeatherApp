@@ -1,4 +1,5 @@
 package com.example.theweatherapp.android
+
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
@@ -58,18 +59,32 @@ class MainActivity : ComponentActivity() {
         locationService = LocationService(this)
 
         // Log permission status
-        Log.d("MainActivity", "Fine Location Permission Granted: ${
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        }")
-        Log.d("MainActivity", "Coarse Location Permission Granted: ${
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        }")
+        Log.d(
+            "MainActivity", "Fine Location Permission Granted: ${
+                ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            }"
+        )
+        Log.d(
+            "MainActivity", "Coarse Location Permission Granted: ${
+                ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            }"
+        )
 
         // Check permissions and request if not granted
         when {
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED -> {
                 getCurrentLocation()
             }
+
             else -> {
                 // Request permission
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -82,7 +97,6 @@ class MainActivity : ComponentActivity() {
                 .build()
                 .create(WeatherApiService::class.java)
 
-
         // Create ViewModel manually
         viewModel = ViewModelProvider(
             this,
@@ -91,27 +105,23 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             MyApplicationTheme {
-                val navController = rememberNavController()
-                // Pass NavController to AppNavigator
-                val navigator = AndroidNavigator(navController) // Wrapping NavHostController in a Navigator
-
-                AppNavigator(navController, viewModel)
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-
-
-                        MainScreen(
-                            viewModel, navigator, Modifier
-
-                                .fillMaxSize()
-                        )
-                       //WeatherDetailsScreen(viewModel, navigator)
-                        //AddLocationScreen()
-                        // SavedLocationsScreen(SavedLocationViewModel())
-                }
+                App()
             }
+        }
+    }
+
+    @Composable
+    private fun App() {
+        val navController = rememberNavController()
+        // Pass NavController to AppNavigator
+        val navigator = AndroidNavigator(navController) // Wrapping NavHostController in a Navigator
+
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            // AppNavigator should control the navigation flow
+            AppNavigator(navController, viewModel)
         }
     }
 
@@ -122,7 +132,10 @@ class MainActivity : ComponentActivity() {
                 location?.let {
                     val latitude = it.latitude
                     val longitude = it.longitude
-                    Log.d("MainActivity", "Fetched location: Latitude = $latitude, Longitude = $longitude")
+                    Log.d(
+                        "MainActivity",
+                        "Fetched location: Latitude = $latitude, Longitude = $longitude"
+                    )
                     currentLocation = "Location: $latitude, $longitude"
                     Toast.makeText(this@MainActivity, currentLocation, Toast.LENGTH_SHORT).show()
 
@@ -136,7 +149,11 @@ class MainActivity : ComponentActivity() {
                         val apiKey = "4e887f948b0d41e94a45b00e8d5111b0"
                         viewModel.fetchWeather(city, apiKey)
                     } else {
-                        Toast.makeText(this@MainActivity, "Unable to get city name", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Unable to get city name",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } ?: run {
                     currentLocation = "Location not available"
